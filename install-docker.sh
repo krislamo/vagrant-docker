@@ -4,6 +4,12 @@
 #docker_version="5:18.09.9~3-0~debian-buster"
 #compose_version="1.25.0"
 
+
+
+# Install curl for downloading docker-compose
+apt-get update
+apt-get install -y curl
+
 # Set default versions if override settings don't exist
 if [ -z ${docker_version+x} ]; then
   packages="docker-ce docker-ce-cli containerd.io"
@@ -19,9 +25,8 @@ fi
 
 # Allow apt to use a repository over HTTPS
 export DEBIAN_FRONTEND=noninteractive
-apt-get update
 apt-get install -y apt-transport-https ca-certificates \
-                   curl gnupg-agent software-properties-common
+                   gnupg-agent software-properties-common
 
 # Add Docker’s official GPG key
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
