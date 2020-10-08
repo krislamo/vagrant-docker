@@ -6,9 +6,11 @@
 
 
 
-# Install curl for downloading docker-compose
+# Install software used for downloading Docker
+export DEBIAN_FRONTEND=noninteractive
 apt-get update
-apt-get install -y curl
+apt-get install -y curl apt-transport-https ca-certificates \
+                   gnupg-agent software-properties-common
 
 # Set default versions if override settings don't exist
 if [ -z ${docker_version+x} ]; then
@@ -22,11 +24,6 @@ if [ -z ${compose_version+x} ]; then
   latest=$(curl -s ${url}/latest | grep -o releases/tag/*.*\")
   compose_version=$(echo $latest | awk '{print substr($1, 14, length($1) - 14)}')
 fi
-
-# Allow apt to use a repository over HTTPS
-export DEBIAN_FRONTEND=noninteractive
-apt-get install -y apt-transport-https ca-certificates \
-                   gnupg-agent software-properties-common
 
 # Add Docker’s official GPG key
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
