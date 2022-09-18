@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get install -y docker.io docker-compose
-    dd if=/dev/zero of=/EMPTY bs=1M
-    rm -f /EMPTY
+    apt-get clean
+    usermod -a -G docker vagrant
   SHELL
 end
